@@ -1,0 +1,139 @@
+---
+title       : Bayesian VAR Model
+subtitle    : Universidad Santo Tomas
+author      : Andrea Amaya, Leonardo Jamaica, Gustavo Venegas & Edwin Hernandez.
+job         : 
+framework   : revealjs      # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Libraries and data 
+
+```{r, results='hide', include=T}
+library(hexView)
+library(dplyr)
+setwd("C:/Users/USUARIO/Downloads/2017/Econometr?a")
+datos <- readEViews("wgmacro.wf1", as.data.frame = T)
+```
+
+```{r}
+names(datos)
+```
+
+```{r}
+Dat1 <- datos %>% select("DLINCOME", "DLCONSUMPTION", "DLINVESTMENT")
+```
+
+---
+
+## Package
+The Package used is "bvarr"
+```{r}
+library(bvarr)
+```
+Goals of the package:
+
+1. Good documentation
+
+---
+
+## Package
+The Package used is "bvarr"
+```{r}
+library(bvarr)
+```
+Goals of the package:
+
+1. Good documentation
+2. Versatile
+
+---
+
+## Package
+The Package used is "bvarr"
+```{r}
+library(bvarr)
+```
+Goals of the package:
+
+1. Good documentation
+2. Versatile
+3. Reasonable default values
+
+---
+
+## Package
+The Package used is "bvarr"
+```{r}
+library(bvarr)
+```
+Goals of the package:
+
+1. Good documentation
+2. Versatile
+3. Reasonable default values
+4. Robustness for bad matrices
+
+---
+
+## Steps:
+1. Create model setup from lambdas
+```{r}
+setup <- bvar_conj_setup(Dat1, p = 2)
+```
+* p = number of lags
+
+
+---
+
+## Steps:
+
+1. Create model setup from lambdas
+2. Estimate bvar conjugate model from setup
+```{r}
+model <- bvar_conj_estimate(setup, keep = 2000)
+```
+* Keep = Number of simulations
+
+---
+
+## Steps:
+
+1. Create model setup from lambdas
+2. Estimate bvar conjugate model from setup
+3. Summary of model
+```{r}
+bvar_conj_summary(model)
+```
+
+---
+
+## Steps:
+
+1. Create model setup from lambdas
+2. Estimate bvar conjugate model from setup
+3. Summary of model
+
+---
+
+## Results:
+
+![Result.1](res.png)
+
+---
+
+## Results:
+
+![Result.1](res2.jpg)
+
+---
+
+
+# Thanks
+### By: Andrea Amaya, Leonardo Jamaica, Gustavo Venegas & Edwin Hernandez.
+
+
