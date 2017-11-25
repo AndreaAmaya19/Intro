@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bayesian VAR Model</title>
+  <meta name="description" content="">
+  <meta name="author" content="Andrea Amaya, Leonardo Jamaica, Gustavo Venegas & Edwin Hernandez.">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="stylesheet" href="libraries/frameworks/revealjs/css/reveal.min.css">
+  <link rel="stylesheet" href="libraries/frameworks/revealjs/css/theme/default.css" id="theme">
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" id="theme">
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->  
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class='' data-state='' id='slide-1'>
+  
+  <p>VAR(2) model using the first differences of the logarithm of the variables.</p>
+
+<h3>Data example:</h3>
+
+<p><span style="color:skyblue; font-weight:bold"> EViews workfile: wgmacro </span></p>
+
+<h3>Variables:</h3>
+
+<ul>
+<li>dlincome</li>
+<li>dlinvestment</li>
+<li>dlconsumption</li>
+</ul>
+
+</section>
+<section class='' data-state='' id='slide-2'>
+  <h2>Libraries and data</h2>
+  <pre><code class="r">library(hexView)
+library(dplyr)
+setwd(&quot;C:/Users/USUARIO/Downloads/2017/Econometr?a&quot;)
+</code></pre>
+
+<pre><code>## Error in setwd(&quot;C:/Users/USUARIO/Downloads/2017/Econometr?a&quot;): no es posible cambiar el directorio de trabajo
+</code></pre>
+
+<pre><code class="r">datos &lt;- readEViews(&quot;wgmacro.wf1&quot;, as.data.frame = T)
+</code></pre>
+
+<pre><code>## Warning in readEViews(&quot;wgmacro.wf1&quot;, as.data.frame = T): Skipping boilerplate variable
+
+## Warning in readEViews(&quot;wgmacro.wf1&quot;, as.data.frame = T): Skipping boilerplate variable
+</code></pre>
+
+<pre><code class="r">names(datos)
+</code></pre>
+
+<pre><code>##  [1] &quot;CONSUMPTION&quot;   &quot;DLCONSUMPTION&quot; &quot;DLINCOME&quot;      &quot;DLINVESTMENT&quot; 
+##  [5] &quot;INCOME&quot;        &quot;INVESTMENT&quot;    &quot;LCONSUMPTION&quot;  &quot;LINCOME&quot;      
+##  [9] &quot;LINVESTMENT&quot;   &quot;QTR&quot;           &quot;P228&quot;
+</code></pre>
+
+<pre><code class="r">Dat1 &lt;- datos %&gt;% select(&quot;DLINCOME&quot;, &quot;DLCONSUMPTION&quot;, &quot;DLINVESTMENT&quot;)
+</code></pre>
+
+</section>
+<section class='' data-state='' id='slide-3'>
+  <h2>Package</h2>
+  <p>The Package used is &quot;bvarr&quot;</p>
+
+<pre><code class="r">library(bvarr)
+</code></pre>
+
+<p>Goals of the package:</p>
+
+<ol>
+<li>Good documentation</li>
+</ol>
+
+</section>
+<section class='' data-state='' id='slide-4'>
+  <h2>Package</h2>
+  <p>The Package used is &quot;bvarr&quot;</p>
+
+<pre><code class="r">library(bvarr)
+</code></pre>
+
+<p>Goals of the package:</p>
+
+<ol>
+<li>Good documentation</li>
+<li>Versatile</li>
+</ol>
+
+</section>
+<section class='' data-state='' id='slide-5'>
+  <h2>Package</h2>
+  <p>The Package used is &quot;bvarr&quot;</p>
+
+<pre><code class="r">library(bvarr)
+</code></pre>
+
+<p>Goals of the package:</p>
+
+<ol>
+<li>Good documentation</li>
+<li>Versatile</li>
+<li>Reasonable default values</li>
+</ol>
+
+</section>
+<section class='' data-state='' id='slide-6'>
+  <h2>Package</h2>
+  <p>The Package used is &quot;bvarr&quot;</p>
+
+<pre><code class="r">library(bvarr)
+</code></pre>
+
+<p>Goals of the package:</p>
+
+<ol>
+<li>Good documentation</li>
+<li>Versatile</li>
+<li>Reasonable default values</li>
+<li>Robustness for bad matrices</li>
+</ol>
+
+</section>
+<section class='' data-state='' id='slide-7'>
+  <h2>Steps:</h2>
+  <ol>
+<li>Create model setup from lambdas</li>
+</ol>
+
+<pre><code class="r">setup &lt;- bvar_conj_setup(Dat1, p = 2)
+</code></pre>
+
+<pre><code>## Not implemented yet
+</code></pre>
+
+<ul>
+<li>p = number of lags</li>
+</ul>
+
+</section>
+<section class='' data-state='' id='slide-8'>
+  <h2>Steps:</h2>
+  <ol>
+<li>Create model setup from lambdas</li>
+<li>Estimate bvar conjugate model from setup</li>
+</ol>
+
+<pre><code class="r">model &lt;- bvar_conj_estimate(setup, keep = 2000)
+</code></pre>
+
+<ul>
+<li>Keep = Number of simulations</li>
+</ul>
+
+</section>
+<section class='' data-state='' id='slide-9'>
+  <h2>Steps:</h2>
+  <ol>
+<li>Create model setup from lambdas</li>
+<li>Estimate bvar conjugate model from setup</li>
+<li>Summary of model</li>
+</ol>
+
+<pre><code class="r">bvar_conj_summary(model)
+</code></pre>
+
+<pre><code>## Number of lags, p = 2
+</code></pre>
+
+<pre><code>## Number of endogeneos variables, m = 3
+</code></pre>
+
+<pre><code>## Number of exogeneos variables (including constant), d = 1
+</code></pre>
+
+<pre><code>## Number of parameters, k = mp + d = 7
+</code></pre>
+
+<pre><code>## Initial number of observations, T_in = 92
+</code></pre>
+
+<pre><code>## Number of dummy observations, T_dummy = 14
+</code></pre>
+
+<pre><code>## Number of observations available for classic VAR, T = T_in - p = 90
+</code></pre>
+
+<pre><code>## Posterior mean of Phi (VAR coefficients) [k = 7 x m = 3]:
+</code></pre>
+
+<pre><code>##                      eq_DLINCOME eq_DLCONSUMPTION eq_DLINVESTMENT
+## DLINCOME, l = 1       0.27748865       0.08283411     0.363634626
+## DLCONSUMPTION, l = 1  0.06084189       0.16246923     0.196887036
+## DLINVESTMENT, l = 1   0.03330551      -0.01869244     0.057912802
+## DLINCOME, l = 2       0.03027940       0.09904413     0.100539299
+## DLCONSUMPTION, l = 2 -0.02559793       0.06218443     0.132926171
+## DLINVESTMENT, l = 2   0.01927934       0.02544238    -0.022657209
+## const                 0.01174505       0.01075225     0.001025187
+</code></pre>
+
+<pre><code>## Posterior nu = 95
+</code></pre>
+
+<pre><code>## Number of mcmc simulations, keep = 2000
+</code></pre>
+
+<pre><code>## Posterior sample mean of Phi (VAR coefficients) [k = 7 x m = 3]:
+</code></pre>
+
+<pre><code>##                      eq_DLINCOME eq_DLCONSUMPTION eq_DLINVESTMENT
+## DLINCOME, l = 1       0.27596892       0.08173428     0.363967670
+## DLCONSUMPTION, l = 1  0.06030832       0.16259989     0.183439102
+## DLINVESTMENT, l = 1   0.03337397      -0.01846001     0.061025313
+## DLINCOME, l = 2       0.03057048       0.09845485     0.103536240
+## DLCONSUMPTION, l = 2 -0.02422096       0.06160966     0.128465131
+## DLINVESTMENT, l = 2   0.01898247       0.02558721    -0.019089477
+## const                 0.01173831       0.01078828     0.001093992
+</code></pre>
+
+<pre><code>## Posterior sample mean of Sigma (noise covariance matrix) [m = 3 x m = 3]:
+</code></pre>
+
+<pre><code>##                   DLINCOME DLCONSUMPTION DLINVESTMENT
+## DLINCOME      1.594252e-04  5.321624e-05 2.153068e-05
+## DLCONSUMPTION 5.321624e-05  1.378790e-04 1.287192e-04
+## DLINVESTMENT  2.153068e-05  1.287192e-04 2.487345e-03
+</code></pre>
+
+<pre><code>## Posterior sample sd of Phi (VAR coefficients) [k = 7 x m = 3]:
+</code></pre>
+
+<pre><code>##                      eq_DLINCOME eq_DLCONSUMPTION eq_DLINVESTMENT
+## DLINCOME, l = 1       0.11062688      0.100905820      0.42483922
+## DLCONSUMPTION, l = 1  0.12225787      0.113647203      0.47087837
+## DLINVESTMENT, l = 1   0.02765849      0.024946893      0.10797731
+## DLINCOME, l = 2       0.07870696      0.075114939      0.32272317
+## DLCONSUMPTION, l = 2  0.08718473      0.082421993      0.34774299
+## DLINVESTMENT, l = 2   0.02175286      0.019225091      0.08518626
+## const                 0.00325049      0.003023217      0.01266579
+</code></pre>
+
+<pre><code>## Posterior sample sd of Sigma (noise covariance matrix) [m = 3 x m = 3]:
+</code></pre>
+
+<pre><code>##                   DLINCOME DLCONSUMPTION DLINVESTMENT
+## DLINCOME      2.424734e-05  1.674040e-05 6.614136e-05
+## DLCONSUMPTION 1.674040e-05  2.035054e-05 6.452287e-05
+## DLINVESTMENT  6.614136e-05  6.452287e-05 3.755105e-04
+</code></pre>
+
+</section>
+<section class='' data-state='' id='slide-10'>
+  <h2>Steps:</h2>
+  <ol>
+<li>Create model setup from lambdas</li>
+<li>Estimate bvar conjugate model from setup</li>
+<li>Summary of model</li>
+</ol>
+
+</section>
+<section class='' data-state='' id='slide-11'>
+  <h2>Results:</h2>
+  <p><img src="res.png" alt="Result.1"></p>
+
+</section>
+<section class='' data-state='' id='slide-12'>
+  <h2>Results:</h2>
+  <p><img src="res2.jpg" alt="Result.1"></p>
+
+</section>
+<section class='' data-state='' id='slide-13'>
+  <h2>Conclutions</h2>
+  <ul>
+<li><p>The prior mean is likely to have most or all of its elements set to zero to <span style="color:skyblue; font-weight:bold"> lessen the risk of over-fitting</span>, and this implies that should be close to zero.</p></li>
+<li><p>Over-parameterization of VAR models is often a problem. Bayesian VAR (BVAR) methodsare one popular approach for achieving shrinkage, since Bayesian priors provide a logical and consistent method of imposing parameter restrictions.</p></li>
+</ul>
+
+</section>
+<section class='' data-state='' id='slide-14'>
+  <h1>Thanks</h1>
+  <h3>By: Andrea Amaya, Leonardo Jamaica, Gustavo Venegas &amp; Edwin Hernandez.</h3>
+
+</section>
+    </div>
+  </div>
+</body>
+  <script src="libraries/frameworks/revealjs/lib/js/head.min.js"></script>
+  <script src="libraries/frameworks/revealjs/js/reveal.min.js"></script>
+  <script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    theme: Reveal.getQueryHash().theme || 'default', 
+    transition: Reveal.getQueryHash().transition || 'default', 
+    dependencies: [
+    // Cross-browser shim that fully implements classList -
+    // https://github.com/eligrey/classList.js/
+      { src: 'libraries/frameworks/revealjs/lib/js/classList.js', condition: function() { return !document.body.classList;}},
+      // Zoom in and out with Alt+click
+      { src: 'libraries/frameworks/revealjs/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      // Speaker notes
+      { src: 'libraries/frameworks/revealjs/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+      // Remote control your reveal.js presentation using a touch device
+      //{ src: 'libraries/frameworks/revealjs/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+      ]
+  });
+  </script>  <!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+ 
+
+</html>
